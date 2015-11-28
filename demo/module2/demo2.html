@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" dir="ltr">
+<head>
+	<title>Синхронные и асинхронные запросы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="ru" />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+	<script type="text/javascript" src="xmlhttprequest.js"></script>
+	<script type="text/javascript">
+		// URL сценария, возвращающего время
+		var getTimeUrl = "gettime.php?delay=3";		// Задержка в запросе:  gettime.php?delay=3
+		var req;
+		// Асинхронный запрос
+		function showTime()
+		{
+			// Запрос
+			req = getXmlHttpRequest();
+			req.open("GET", "gettime.php", true);
+			req.send(null);
+			setInterval("showTime()", 1000);
+			req.onreadystatechange = function(){
+				if (req.readyState == 4) {
+					document.getElementById("result").innerHTML = req.responseHeader("My-Time");		
+				}
+			};
+		}
+		
+		// Завершение асинхронного запроса
+		function showAsyncRequestComplete()
+		{
+			// только при состоянии "complete"
+			if (req.readyState == 4) 
+			{
+				var result = document.getElementById("asyncResult");
+				result.firstChild.nodeValue = req.responseText;
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Текущее время</h1>
+	<div id="result"></div>
+	<div id="async">
+		<button onclick="showTime()">Показать время</button>
+	</div>
+</body>
+</html>
+

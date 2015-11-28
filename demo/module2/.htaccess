@@ -1,0 +1,2 @@
+# .htaccess
+Header set Cach-Control "no-store, no-cache"
